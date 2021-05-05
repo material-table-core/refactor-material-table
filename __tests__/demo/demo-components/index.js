@@ -264,7 +264,12 @@ const global_cols = [
  */
 export function Basic() {
   return (
-    <MaterialTable title="Basic" columns={global_cols} data={global_data} />
+    <MaterialTable
+      title="Basic"
+      columns={global_cols}
+      data={global_data}
+      options={{ columnsButton: true }}
+    />
   );
 }
 

@@ -5,6 +5,9 @@ import { propTypes } from './prop-types';
 import MaterialTable from './material-table';
 import { withStyles } from '@material-ui/core';
 
+import { Provider } from 'react-redux';
+import { initStore } from './store';
+
 MaterialTable.defaultProps = defaultProps;
 MaterialTable.propTypes = propTypes;
 
@@ -25,7 +28,9 @@ const styles = (theme) => ({
 });
 
 export default withStyles(styles, { withTheme: true })((props) => (
-  <MaterialTable {...props} ref={props.tableRef} />
+  <Provider store={initStore()}>
+    <MaterialTable {...props} ref={props.tableRef} />
+  </Provider>
 ));
 
 export {

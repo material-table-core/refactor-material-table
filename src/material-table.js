@@ -1,28 +1,31 @@
-/* eslint-disable no-unused-vars */
+import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import DoubleScrollbar from 'react-double-scrollbar';
-import * as React from 'react';
-import { MTablePagination, MTableSteppedPagination } from './components';
+import {
+  MTablePagination,
+  MTableSteppedPagination,
+  MTableScrollBar
+} from './components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import DataManager from './utils/data-manager';
 import { debounce } from 'debounce';
 import equal from 'fast-deep-equal/react';
-import { withStyles } from '@material-ui/core';
 import * as CommonValues from './utils/common-values';
 
-/* eslint-enable no-unused-vars */
-
-export default class MaterialTable extends React.Component {
+export default class MaterialTable extends Component {
   dataManager = new DataManager();
 
   constructor(props) {
     super(props);
 
+    this.tableContainerDiv = React.createRef();
+
     const calculatedProps = this.getProps(props);
+
     this.setDataManagerFields(calculatedProps, true);
+
     const renderState = this.dataManager.getRenderState();
 
     this.state = {
@@ -44,15 +47,12 @@ export default class MaterialTable extends React.Component {
         page: 0,
         pageSize: calculatedProps.options.pageSize,
         search: renderState.searchText,
-
         totalCount: 0
       },
       showAddRow: false,
       bulkEditOpen: false,
       width: 0
     };
-
-    this.tableContainerDiv = React.createRef();
   }
 
   componentDidMount() {
@@ -132,8 +132,6 @@ export default class MaterialTable extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // const propsChanged = Object.entries(this.props).reduce((didChange, prop) => didChange || prop[1] !== prevProps[prop[0]], false);
-
     const fixedPrevColumns = this.cleanColumns(prevProps.columns);
     const fixedPropsColumns = this.cleanColumns(this.props.columns);
 
@@ -1039,7 +1037,7 @@ export default class MaterialTable extends React.Component {
               onGroupRemoved={this.onGroupRemoved}
             />
           )}
-          <ScrollBar double={props.options.doubleHorizontalScroll}>
+          <MTableScrollBar double={props.options.doubleHorizontalScroll}>
             <Droppable droppableId="headers" direction="horizontal">
               {(provided, snapshot) => {
                 const table = this.renderTable(props);
@@ -1120,7 +1118,7 @@ export default class MaterialTable extends React.Component {
                 );
               }}
             </Droppable>
-          </ScrollBar>
+          </MTableScrollBar>
           {(this.state.isLoading || props.isLoading) &&
             props.options.loadingType === 'linear' && (
               <div style={{ position: 'relative', width: '100%' }}>
@@ -1182,34 +1180,3 @@ export default class MaterialTable extends React.Component {
     );
   }
 }
-
-const style = () => ({
-  horizontalScrollContainer: {
-    '& ::-webkit-scrollbar': {
-      '-webkit-appearance': 'none'
-    },
-    '& ::-webkit-scrollbar:horizontal': {
-      height: 8
-    },
-    '& ::-webkit-scrollbar-thumb': {
-      borderRadius: 4,
-      border: '2px solid white',
-      backgroundColor: 'rgba(0, 0, 0, .3)'
-    }
-  }
-});
-
-const ScrollBar = withStyles(style)(({ double, children, classes }) => {
-  if (double) {
-    return <DoubleScrollbar>{children}</DoubleScrollbar>;
-  } else {
-    return (
-      <div
-        className={classes.horizontalScrollContainer}
-        style={{ overflowX: 'auto', position: 'relative' }}
-      >
-        {children}
-      </div>
-    );
-  }
-});
