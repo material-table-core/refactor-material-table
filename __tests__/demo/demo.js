@@ -28,6 +28,7 @@ import {
   BulkEditWithDetailPanel,
   ExportData,
   CustomExport,
+  ColumnsButton,
   EditableRow,
   EditableCells,
   FrankensteinDemo,
@@ -54,6 +55,9 @@ render(
 
     <h1>Bulk Edit</h1>
     <BulkEdit />
+
+    <h1>Columns Button</h1>
+    <ColumnsButton />
 
     <h1>Default Order Issue</h1>
     <DefaultOrderIssue />

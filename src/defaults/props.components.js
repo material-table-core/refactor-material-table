@@ -20,6 +20,7 @@ import {
   MTableBodyRow,
   MTableSummaryRow,
   MTableToolbar,
+  MTableToolbarWithZustand,
   OverlayError,
   OverlayLoading
 } from '../components';
@@ -42,5 +43,5 @@ export default {
   Pagination: TablePagination,
   Row: MTableBodyRow,
   SummaryRow: MTableSummaryRow,
-  Toolbar: MTableToolbar
+  Toolbar: MTableToolbarWithZustand // MTableToolbar
 };

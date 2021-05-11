@@ -268,6 +268,17 @@ export function Basic() {
   );
 }
 
+export function ColumnsButton() {
+  return (
+    <MaterialTable
+      title="Basic"
+      columns={global_cols}
+      data={global_data}
+      options={{ columnsButton: true }}
+    />
+  );
+}
+
 /*
 export function CustomExport() {
   return (
